@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { stringify } from "querystring";
-import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "../consts";
+import { REDIRECT_URI } from "../consts";
 
 
 export async function GET(request: NextRequest) {
@@ -9,6 +9,8 @@ export async function GET(request: NextRequest) {
 
     var code = searchParams.get('code');
     var state = searchParams.get('state');
+    
+    // TODO check for error in params
 
     if (state === null || code === null) {
         redirect('/#' +
@@ -23,7 +25,7 @@ export async function GET(request: NextRequest) {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Basic ' + (Buffer.from(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'))
+                    'Authorization': 'Basic ' + (Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
                 },
                 body: new URLSearchParams({
                     'code': code,
@@ -44,6 +46,9 @@ export async function GET(request: NextRequest) {
         const body = await response.json()
         const access_token = body.access_token,
             refresh_token = body.refresh_token;
+
+        // TODO: where to store access token? cookies?
+        // TOOD: refresh_token endpoint
 
         const user_info_response = await fetch(
             'https://api.spotify.com/v1/me',
