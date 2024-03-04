@@ -3,10 +3,7 @@ import { randomBytes } from 'crypto';
 import { stringify } from 'querystring';
 import { cookies } from 'next/headers';
 
-// TODO define these somewhere else 
-var client_id = 'yourClientIDGoesHere';
-var client_secret = 'YourSecretIDGoesHere';
-var redirect_uri = 'http://localhost:3000/callback';
+import { CLIENT_ID, REDIRECT_URI } from '../consts';
 
 const generateRandomString = (length: number): string => {
     return randomBytes(60)
@@ -23,9 +20,9 @@ export async function GET(request: Request) {
     redirect('https://accounts.spotify.com/authorize?' +
         stringify({
             response_type: 'code',
-            client_id: client_id,
+            client_id: CLIENT_ID,
             scope: scope,
-            redirect_uri: redirect_uri,
+            redirect_uri: REDIRECT_URI,
             state: state
         })
     );
