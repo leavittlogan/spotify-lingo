@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { stringify } from "querystring";
 import { REDIRECT_URI } from "../consts";
+import { cookies } from "next/headers";
 
 
 export async function GET(request: NextRequest) {
@@ -44,22 +45,12 @@ export async function GET(request: NextRequest) {
         }
 
         const body = await response.json()
-        const access_token = body.access_token,
-            refresh_token = body.refresh_token;
+        
+        let cookieStore = cookies();
+        cookieStore.set('access_token', body.access_token);
+        cookieStore.set('refresh_token', body.refresh_token);
 
-        // TODO: where to store access token? cookies?
         // TOOD: refresh_token endpoint
-
-        const user_info_response = await fetch(
-            'https://api.spotify.com/v1/me',
-            {
-                headers: { 'Authorization': 'Bearer ' + access_token },
-            }
-        )
-        if (!user_info_response.ok) {
-            console.log('failed to get spotify user info:', await user_info_response.json())
-        }
-        console.log(await user_info_response.json());
 
         redirect('/');
     }
