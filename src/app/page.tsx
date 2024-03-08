@@ -3,31 +3,24 @@ import styles from './page.module.css';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 
+async function fetchProfile(token: string): Promise<UserProfile> {
+  const response = await fetch(
+    'https://api.spotify.com/v1/me',
+    {
+      headers: { Authorization: 'Bearer ' + token }
+    }
+  );
+
+  return await response.json();
+}
+
 export default async function Home () {
   const access_token = cookies().get('access_token')?.value;
   if (!access_token) {
     redirect('/login');
   }
 
-  const response = await fetch(
-    'https://api.spotify.com/v1/me',
-    {
-      headers: { Authorization: 'Bearer ' + access_token }
-    }
-  );
-
-  if (!response.ok) {
-    console.log('failed to get spotify user info:', await response.json());
-    return (
-            <main className={styles.main}>
-                <h2>
-                    An error occurred
-                </h2>
-            </main>
-    );
-  }
-
-  const user_info = await response.json();
+  const user_info = await fetchProfile(access_token);
   const pic = user_info.images[1];
 
   return (
