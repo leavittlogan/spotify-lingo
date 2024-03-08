@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
-import { stringify } from 'querystring';
 import { REDIRECT_URI } from '../consts';
 import { cookies } from 'next/headers';
 
@@ -10,14 +9,11 @@ export async function GET (request: NextRequest) {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
 
-  // TODO check for error in params
-
+  // TODO: check state param with the one generated at login
   if (state === null || code === null) {
-    redirect('/#' +
-      stringify({
-        error: 'invalid_callback_request'
-      })
-    );
+    return {
+        error: "Unable to authenticate to Spotify."
+    }
   } else {
     const response = await fetch(
       'https://accounts.spotify.com/api/token',
@@ -34,22 +30,14 @@ export async function GET (request: NextRequest) {
         })
       }
     );
-    if (!response.ok) {
-      console.log('fetch failed:', await response.json());
-      redirect('/#' +
-        stringify({
-          error: 'authentication_failed'
-        })
-      );
-    }
 
     const body = await response.json();
 
     const cookieStore = cookies();
-    cookieStore.set('access_token', body.access_token);
+    cookieStore.set('access_token', body.access_token, { maxAge: body.expires_in });
     cookieStore.set('refresh_token', body.refresh_token);
 
-    // TOOD: refresh_token endpoint
+    // TODO: refresh_token endpoint
 
     redirect('/');
   }
