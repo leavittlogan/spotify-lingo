@@ -22,9 +22,9 @@ async function fetchCurrentlyPlaying(token: string): Promise<Track> {
     }
   );
   const data = await response.json()
-  const name = data.item.name && data.is_playing ? data.item.name : "Nothing playing"
+  const name = data.item.name && data.is_playing == true ? data.item.name : "No track playing"
   
-  return { name: data.item.name }
+  return { name: name }
 }
 
 export default async function Home () {
