@@ -14,6 +14,19 @@ async function fetchProfile(token: string): Promise<UserProfile> {
   return await response.json();
 }
 
+async function fetchCurrentlyPlaying(token: string): Promise<Track> {
+  const response = await fetch(
+    'https://api.spotify.com/v1/me/player/currently-playing',
+    {
+      headers: { Authorization: 'Bearer ' + token}
+    }
+  );
+  const data = await response.json()
+  const name = data.item.name && data.is_playing ? data.item.name : "Nothing playing"
+  
+  return { name: data.item.name }
+}
+
 export default async function Home () {
   const access_token = cookies().get('access_token')?.value;
   if (!access_token) {
@@ -21,6 +34,7 @@ export default async function Home () {
   }
 
   const user_info = await fetchProfile(access_token);
+  const currently_playing_track = await fetchCurrentlyPlaying(access_token)
   const pic = user_info.images[1];
 
   return (
@@ -37,6 +51,9 @@ export default async function Home () {
           <h2>
             {user_info.display_name}
           </h2>
+          <h3>
+            {currently_playing_track.name}
+          </h3>
         </div>
       </a>
     </main>
