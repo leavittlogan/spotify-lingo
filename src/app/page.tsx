@@ -14,17 +14,21 @@ async function fetchProfile(token: string): Promise<UserProfile> {
   return await response.json();
 }
 
-async function fetchCurrentlyPlaying(token: string): Promise<Track> {
+async function fetchCurrentlyPlaying(token: string): Promise<Track | null> {
   const response = await fetch(
     'https://api.spotify.com/v1/me/player/currently-playing',
     {
       headers: { Authorization: 'Bearer ' + token}
     }
   );
-  const data = await response.json()
-  const name = data.item.name && data.is_playing == true ? data.item.name : "No track playing"
-  
-  return { name: name }
+
+  // empty body response
+  if (response.status == 204) {
+    return null;
+  }
+
+  const data = await response.json();
+  return { name: data.item.name };
 }
 
 export default async function Home () {
@@ -52,7 +56,7 @@ export default async function Home () {
             {user_info.display_name}
           </h2>
           <h3>
-            {currently_playing_track.name}
+            {currently_playing_track == null ? "No Track Playing" : currently_playing_track.name}
           </h3>
         </div>
       </a>
