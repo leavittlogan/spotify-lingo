@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import styles from './page.module.css';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
+import { toRomaji, hasJapanese } from './util';
 
 async function fetchProfile(token: string): Promise<UserProfile> {
   const response = await fetch(
@@ -31,14 +32,19 @@ async function fetchCurrentlyPlaying(token: string): Promise<Track | null> {
   return { name: data.item.name };
 }
 
-export default async function Home () {
+export default async function Home() {
   const access_token = cookies().get('access_token')?.value;
   if (!access_token) {
     redirect('/login');
   }
 
   const user_info = await fetchProfile(access_token);
-  const currently_playing_track = await fetchCurrentlyPlaying(access_token)
+  const currently_playing_track = await fetchCurrentlyPlaying(access_token);
+  const trackTitleString = currently_playing_track ? currently_playing_track.name : "-";
+  let trackTitleRomaji = "";
+  if (await hasJapanese(trackTitleString)) {
+    trackTitleRomaji = await toRomaji(trackTitleString)
+  }
   const pic = user_info.images[1];
 
   return (
@@ -56,8 +62,11 @@ export default async function Home () {
             {user_info.display_name}
           </h2>
           <h3>
-            {currently_playing_track == null ? "No Track Playing" : currently_playing_track.name}
+            {trackTitleString}
           </h3>
+          <h4>
+            {trackTitleRomaji}
+          </h4>
         </div>
       </a>
     </main>
