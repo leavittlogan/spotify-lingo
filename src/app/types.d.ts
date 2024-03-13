@@ -24,4 +24,6 @@ interface Image {
 
 interface Track {
     name: string;
+    images: Image[];
+    url: string;
 }
