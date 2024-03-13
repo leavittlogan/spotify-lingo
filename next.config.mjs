@@ -6,6 +6,12 @@ const nextConfig = {
             hostname: 'i.scdn.co',
             port: '',
             pathname: '/image/*'
+        },
+        {
+            protocol: 'https',
+            hostname: 'platform-lookaside.fbsbx.com',
+            port: '',
+            pathname: '/platform/profilepic/**'
         }]
     }
 };

@@ -16,7 +16,7 @@ export async function GET (request: Request) {
   cookies().set('spotify_auth_state', state);
 
   // your application requests authorization
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email user-read-currently-playing';
   redirect('https://accounts.spotify.com/authorize?' +
     stringify({
       response_type: 'code',
