@@ -42,7 +42,7 @@ export default async function Home() {
   const currently_playing_track = await fetchCurrentlyPlaying(access_token);
   const trackTitleString = currently_playing_track ? currently_playing_track.name : "-";
   let trackTitleRomaji = "";
-  if (await hasJapanese(trackTitleString)) {
+  if (hasJapanese(trackTitleString)) {
     trackTitleRomaji = await toRomaji(trackTitleString)
   }
   const pic = user_info.images[1];
