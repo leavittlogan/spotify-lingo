@@ -30,7 +30,9 @@ async function fetchCurrentlyPlaying(token: string): Promise<Track | null> {
   const data = await response.json();
   return {
     name: data.item.name,
-    images: data.item.album.images,
+    album: {
+      images: data.item.album.images,
+    },
     url: data.item.external_urls.spotify
   };
 }

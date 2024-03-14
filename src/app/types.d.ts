@@ -24,6 +24,10 @@ interface Image {
 
 interface Track {
     name: string;
-    images: Image[];
+    album: Album;
     url: string;
+}
+
+interface Album {
+    images: Image[];
 }
