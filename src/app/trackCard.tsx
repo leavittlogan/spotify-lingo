@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { hasJapanese, toRomaji } from './util';
 
 export default async function TrackCard(props: { track: Track }) {
-    let trackTitleRomaji = "";
+    let nameRomaji = "";
     if (hasJapanese(props.track.name)) {
-        trackTitleRomaji = await toRomaji(props.track.name)
+        nameRomaji = await toRomaji(props.track.name)
     }
 
     return <a href={props.track.url}>
@@ -21,7 +21,7 @@ export default async function TrackCard(props: { track: Track }) {
                     {props.track.name}
                 </h1>
                 <h2>
-                    (translated title)
+                    {nameRomaji}
                 </h2>
             </div>
         </div>
