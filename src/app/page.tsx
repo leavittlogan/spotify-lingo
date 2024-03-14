@@ -35,7 +35,7 @@ async function fetchCurrentlyPlaying(token: string): Promise<Track | null> {
   };
 }
 
-export default async function Home () {
+export default async function Home() {
   const access_token = cookies().get('access_token')?.value;
   if (!access_token) {
     redirect('/login');

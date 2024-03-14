@@ -1,7 +1,13 @@
 import styles from './page.module.css';
 import Image from 'next/image';
+import { hasJapanese, toRomaji } from './util';
 
-export default function TrackCard(props: { track: Track }) {
+export default async function TrackCard(props: { track: Track }) {
+    let trackTitleRomaji = "";
+    if (hasJapanese(props.track.name)) {
+        trackTitleRomaji = await toRomaji(props.track.name)
+    }
+
     return <a href={props.track.url}>
         <div className={styles.trackcard}>
             <Image
