@@ -1,11 +1,14 @@
 import styles from './page.module.css';
 import Image from 'next/image';
-import { hasJapanese, toRomaji } from './util';
+import { hasJapanese, toRomaji } from '../utils/kuroshiro';
+import { translateText } from '@/utils/cloudTranslation';
 
 export default async function TrackCard(props: { track: Track }) {
     let nameRomaji = "";
+    let nameTranslated = "";
     if (hasJapanese(props.track.name)) {
         nameRomaji = await toRomaji(props.track.name)
+        nameTranslated = await translateText(props.track.name);
     }
 
     return <a href={props.track.url}>
@@ -23,6 +26,9 @@ export default async function TrackCard(props: { track: Track }) {
                 <h2>
                     {nameRomaji}
                 </h2>
+                <h3>
+                    {nameTranslated}
+                </h3>
             </div>
         </div>
     </a>
