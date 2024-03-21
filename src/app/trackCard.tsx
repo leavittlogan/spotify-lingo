@@ -7,8 +7,7 @@ export default async function TrackCard(props: { track: Track }) {
     let nameRomaji = "";
     let nameTranslated = "";
     if (hasJapanese(props.track.name)) {
-        nameRomaji = await toRomaji(props.track.name)
-        nameTranslated = await translateText(props.track.name);
+        [nameRomaji, nameTranslated] = await Promise.all([toRomaji(props.track.name), translateText(props.track.name)]);
     }
 
     return <a href={props.track.url}>
