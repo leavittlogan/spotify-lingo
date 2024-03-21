@@ -48,6 +48,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
+      <div><p>{user_info.display_name}</p></div>
       {currently_playing_track ?
         <TrackCard track={currently_playing_track}/>
         : <h1>No track playing</h1>

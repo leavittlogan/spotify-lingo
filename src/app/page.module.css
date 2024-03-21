@@ -1,32 +1,32 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  background-image: linear-gradient(teal, black);
 }
 
 .trackcard {
+  display: flex;
+  flex-direction: row;
   padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0.1);
-  border: 1px solid rgba(var(--card-border-rgb), 0.15);
-  transition: background 200ms, border 200ms;
 }
 
 .trackcard h1 {
-  font-weight: 600;
-  font-size:80px;
+  font-weight: 900;
+  font-size: 6rem;
 }
 
 .trackcard h2 {
   font-weight: 300;
-  font-size:60px;
+  font-size: 4rem;
 }
 
 .trackcard div {
-  float: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
   margin-left: 2rem;
 }
 
