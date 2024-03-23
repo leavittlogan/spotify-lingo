@@ -33,7 +33,12 @@ async function fetchCurrentlyPlaying(token: string): Promise<Track | null> {
     album: {
       images: data.item.album.images,
     },
-    url: data.item.external_urls.spotify
+    url: data.item.external_urls.spotify,
+    artists: data.item.artists.map((item: { name: any; images: any; }) => {
+      return {
+        name: item.name,
+      }
+    })
   };
 }
 
@@ -47,16 +52,16 @@ export default async function Home() {
   const currently_playing_track = await fetchCurrentlyPlaying(access_token)
 
   return (
-    <main className='p-12 min-h-screen bg-gradient-to-b from-blue-300 to-black'>
+    <main className='p-4 min-h-screen bg-gradient-to-b from-gray-800 to-black'>
       <div className='overflow-hidden'>
-        <div className='float-right bg-black p-2 rounded-full'>
-          <span>{user_info.display_name}</span>
-          <Image className='float-right m-1' 
+        <div className='flex justify-center items-center gap-2 p-2 float-right bg-black rounded-full'>
+          <Image className='float-right rounded-full' 
             src={user_info.images[0].url}
             alt='profile picture'
-            height={24}
-            width={24}
+            height={32}
+            width={32}
           /> 
+          <span className='font-semibold'>{user_info.display_name}</span>
         </div>
       </div>
       {currently_playing_track ?

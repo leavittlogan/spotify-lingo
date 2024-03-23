@@ -6,12 +6,12 @@ export default async function TrackCard(props: { track: Track }) {
     let nameRomaji = "";
     let nameTranslated = "";
     if (hasJapanese(props.track.name)) {
-        //[nameRomaji, nameTranslated] = await Promise.all([toRomaji(props.track.name), translateText(props.track.name)]);
+        [nameRomaji, nameTranslated] = await Promise.all([toRomaji(props.track.name), translateText(props.track.name)]);
     }
 
     return <a href={props.track.url}>
         <div className='flex flex-row p-4'>
-            <Image
+            <Image className='rounded shadow-lg'
                 src={props.track.album.images[1].url}
                 alt="album art"
                 height={props.track.album.images[1].height}
@@ -27,6 +27,9 @@ export default async function TrackCard(props: { track: Track }) {
                 <h3 className='font-normal text-5xl'>
                     {nameTranslated}
                 </h3>
+                <div>
+                    <span className='font-normal'>{props.track.artists[0].name} </span>
+                </div>
             </div>
         </div>
     </a>
