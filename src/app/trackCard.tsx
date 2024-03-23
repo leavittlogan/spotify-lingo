@@ -1,4 +1,3 @@
-import styles from './page.module.css';
 import Image from 'next/image';
 import { hasJapanese, toRomaji } from '../utils/kuroshiro';
 import { translateText } from '@/utils/cloudTranslation';
@@ -11,23 +10,26 @@ export default async function TrackCard(props: { track: Track }) {
     }
 
     return <a href={props.track.url}>
-        <div className={styles.trackcard}>
-            <Image
+        <div className='flex flex-row p-4'>
+            <Image className='rounded shadow-lg'
                 src={props.track.album.images[1].url}
                 alt="album art"
                 height={props.track.album.images[1].height}
                 width={props.track.album.images[1].width}
             />
-            <div>
-                <h1>
+            <div className='flex flex-col justify-end m-8'>
+                <h1 className='font-black text-8xl'>
                     {props.track.name}
                 </h1>
-                <h2>
+                <h2 className='font-normal text-6xl'>
                     {nameRomaji}
                 </h2>
-                <h3>
+                <h3 className='font-normal text-5xl'>
                     {nameTranslated}
                 </h3>
+                <div>
+                    <span className='font-normal'>{props.track.artists[0].name} </span>
+                </div>
             </div>
         </div>
     </a>
