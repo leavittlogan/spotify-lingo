@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import styles from './page.module.css';
+import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import TrackCard from './trackCard';
 
@@ -47,8 +47,18 @@ export default async function Home() {
   const currently_playing_track = await fetchCurrentlyPlaying(access_token)
 
   return (
-    <main className={styles.main}>
-      <div><p>{user_info.display_name}</p></div>
+    <main className='p-12 min-h-screen bg-gradient-to-b from-blue-300 to-black'>
+      <div className='overflow-hidden'>
+        <div className='float-right bg-black p-2 rounded-full'>
+          <span>{user_info.display_name}</span>
+          <Image className='float-right m-1' 
+            src={user_info.images[0].url}
+            alt='profile picture'
+            height={24}
+            width={24}
+          /> 
+        </div>
+      </div>
       {currently_playing_track ?
         <TrackCard track={currently_playing_track}/>
         : <h1>No track playing</h1>
