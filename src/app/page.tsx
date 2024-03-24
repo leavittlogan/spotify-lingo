@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import TrackCard from './trackCard';
+import fetchLyrics from '../utils/musixMatch';
 
 async function fetchProfile(token: string): Promise<UserProfile> {
   const response = await fetch(
@@ -49,10 +50,11 @@ export default async function Home() {
   }
 
   const user_info = await fetchProfile(access_token);
-  const currently_playing_track = await fetchCurrentlyPlaying(access_token)
+  const currently_playing_track = await fetchCurrentlyPlaying(access_token);
+  const lyrics = currently_playing_track ? await fetchLyrics(currently_playing_track) : "";
 
   return (
-    <main className='p-4 min-h-screen bg-gradient-to-b from-gray-800 to-black'>
+    <main className='p-4 px-16 min-h-screen bg-gradient-to-b from-gray-500 to-black'>
       <div className='overflow-hidden'>
         <div className='flex justify-center items-center gap-2 p-2 float-right bg-black rounded-full'>
           <Image className='float-right rounded-full' 
@@ -64,8 +66,15 @@ export default async function Home() {
           <span className='font-semibold'>{user_info.display_name}</span>
         </div>
       </div>
-      {currently_playing_track ?
+      {currently_playing_track ? <>
         <TrackCard track={currently_playing_track}/>
+        <div className='bg-black rounded-lg p-4 bg-opacity-50'>
+          {
+            // TODO how to render empty lines properly?
+            lyrics.split("\n").map(line => <p className='mt-1 font-light'>{line}</p>)
+          }
+        </div>
+      </>
         : <h1>No track playing</h1>
       }
     </main>

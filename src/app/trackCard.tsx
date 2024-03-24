@@ -10,7 +10,7 @@ export default async function TrackCard(props: { track: Track }) {
     }
 
     return <a href={props.track.url}>
-        <div className='flex flex-row p-4'>
+        <div className='flex flex-row my-8'>
             <Image className='rounded shadow-lg'
                 src={props.track.album.images[1].url}
                 alt="album art"
