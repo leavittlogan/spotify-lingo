@@ -1,6 +1,8 @@
 # spotify-lingo
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+A web app for romanizing japanese song titles (displays the song you are currently listening). Support for more general language translation possibly coming in the future
+
+Note: This project is still a WIP, and not deployed anywhere at the moment.
 
 ## Getting Started
 
