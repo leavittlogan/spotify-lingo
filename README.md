@@ -1,6 +1,6 @@
 # spotify-lingo
 
-A web app for romanizing japanese song titles (displays the song you are currently listening). Support for more general language translation possibly coming in the future
+A web app for romanizing japanese song titles (displays the song you are currently listening to). Support for more general language translation possibly coming in the future.
 
 Note: This project is still a WIP, and not deployed anywhere at the moment.
 
